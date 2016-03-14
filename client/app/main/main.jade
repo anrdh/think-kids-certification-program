@@ -1,6 +1,23 @@
 div(ng-include='"components/navbar/navbar.html"')
 
-.container
+md-content.container(ng-show="isInstructor()")
+  md-tabs(md-dynamic-height="")
+    md-tab(label="Assignment Reviews")
+    md-tab(label="Calls")
+      br
+      p Click on a day to set your availability for calls.
+      calendar-md(flex="", layout="", layout-fill="", 
+        calendar-direction="direction",
+        title-format="'MMMM y'",
+        ng-model="selectedDate",
+        week-starts-on="Monday",
+        tooltips="true",
+        day-format="d",
+        day-label-format="'EEE'",
+        day-label-tooltip-format="'EEEE'",
+        on-day-click="showDatePicker")
+
+.container(ng-hide="isInstructor()")
   .row
     .col-lg-3
       .well

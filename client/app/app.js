@@ -13,7 +13,9 @@ angular.module('thinkKidsCertificationProgramApp', [
   'ngMaterial',
   'ngFileUpload',
   'angular-loading-bar',
-  'ngMessages'
+  'ngMessages',
+  'materialCalendar',
+  'ngMaterialDatePicker'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

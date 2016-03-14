@@ -7,6 +7,14 @@ angular.module('thinkKidsCertificationProgramApp')
   $scope.submissionFields = [];
   $scope.noClasses = false;
 
+  $scope.isInstructor = () => {
+    let usrRoles = Auth.getCurrentUser().roles;
+    if(usrRoles.indexOf('inst') > -1) {
+      return true;
+    }
+    return false;
+  };
+
   $http.get('/api/classes')
     .success(function(classes) {
       $scope.classes = classes.filter(function(clas) {
