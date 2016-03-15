@@ -15,6 +15,11 @@ angular.module('thinkKidsCertificationProgramApp')
     return false;
   };
 
+  $scope.showDatePicker = () => {
+    $scope.selectedDate = moment($scope.selectedDate).format('MMMM Do, YYYY');
+    $scope.showTimePicker = true;
+  };
+
   $http.get('/api/classes')
     .success(function(classes) {
       $scope.classes = classes.filter(function(clas) {
