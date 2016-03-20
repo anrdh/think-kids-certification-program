@@ -15,23 +15,8 @@ angular.module('thinkKidsCertificationProgramApp', [
   'angular-loading-bar',
   'ngMessages',
   'materialCalendar',
-  'scDateTime'
+  'ngMaterialDatePicker'
 ])
-  .value('scDateTimeConfig', {
-    defaultTheme: 'material',
-    autosave: false,
-    defaultMode: 'time',
-    displayMode: 'time',
-    displayTwentyfour: false,
-    compact: true
-	})
-
-  .value('scDateTimeI18n', {
-    now: '',
-    cancel: '',
-    save: 'Save'
-  })
-
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');

@@ -5,24 +5,41 @@ md-content.container.wrapper(ng-show="isInstructor()")
     md-tab(label="Assignment Reviews")
     md-tab(label="Calls")
       br
-      calendar-md(flex="", layout="", layout-fill="", 
-        calendar-direction="direction",
+      calendar-md(id="calendar", flex="", layout="", layout-fill="",
         title-format="'MMMM y'",
         ng-model="selectedDate",
-        week-starts-on="Monday",
+        week-starts-on="0",
         day-format="d",
         day-label-format="'EEE'",
-        day-label-tooltip-format="'EEEE'",
-        on-day-click="showDatePicker")
-      br
-      md-content.center-text(ng-hide="showTimePicker")
+        on-day-click="showTimePicker",
+        day-content="setDayContent")
+      md-content.center-text(ng-hide="viewTimePicker")
+        br
+        br
         h3.text-muted Click on a day to set your availability for calls.
-      form(ng-show="showTimePicker")
+      form(ng-show="viewTimePicker" ng-submit="setCallAvail()", layout="column" layout-align="center center")
+        h4 {{formattedSelectedDate}}
+        br
         div(layout="row", layout-align="center center")
-          time-date-picker(ng-model="startTime")
-          h3 &nbsp;&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;
-          time-date-picker(ng-model="endTime")
-        md-button.md-primary.md-raised(type="submit") Submit
+          md-input-container
+            label Start time
+            input(mdc-datetime-picker, date="false", time="true", type="text", 
+               id="startTime",
+               short-time="true",
+               placeholder="Start time",
+               format="hh:mm a",
+               ng-model="startTime")
+          p &nbsp;&nbsp;&nbsp;to&nbsp;&nbsp;&nbsp;
+          md-input-container
+            label End time
+            input(mdc-datetime-picker, date="false", time="true", type="text", 
+               id="endTime",
+               short-time="true",
+               placeholder="End time",
+               format="hh:mm a",
+               min-date="startTime",
+               ng-model="endTime")
+        md-button.md-primary.md-raised(type="submit", ng-disabled="!(startTime && endTime)") Submit
 
 .container(ng-hide="isInstructor()")
   .row

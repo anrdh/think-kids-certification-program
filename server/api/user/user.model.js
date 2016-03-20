@@ -26,7 +26,8 @@ var UserSchema = new Schema({
   provider: String,
   salt: String,
   announcements: Array,
-  payments: Array
+  payments: Array,
+  callAvail: Object
 });
 
 /**

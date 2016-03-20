@@ -1,24 +1,83 @@
 'use strict';
 
 angular.module('thinkKidsCertificationProgramApp')
-.controller('MainCtrl', function ($scope, $http, Auth) {
+.controller('MainCtrl', function ($scope, $http, Auth, $mdToast, MaterialCalendarData, $timeout) {
   $scope.forms = [];
   $scope.submissions = [];
   $scope.submissionFields = [];
   $scope.noClasses = false;
+  $scope.viewTimePicker = false;
+  const user = Auth.getCurrentUser();
 
-  $scope.isInstructor = () => {
-    let usrRoles = Auth.getCurrentUser().roles;
-    if(usrRoles.indexOf('inst') > -1) {
-      return true;
+  if(user.callAvail === undefined) {
+    user.callAvail = {};
+  }
+
+  $timeout(() => {
+    $scope.isInstructor = () => {
+      const { roles } = user;
+      if(roles.indexOf('inst') > -1) {
+        return true;
+      }
+      return false;
+    };
+  });
+
+  $scope.setDayContent = date => {
+    const waitForUserLoad = () => {
+      if(typeof user !== 'undefined') {
+        date = moment(date).format('MMMM Do, YYYY');
+        const { callAvail } = user;
+        if(callAvail[date]) {
+          let returnStr = '';
+          callAvail[date].forEach(timeBlock => {
+            const startTime = moment(timeBlock[0]).format('HH:mm');
+            const endTime = moment(timeBlock[1]).format('HH:mm');
+            returnStr += '<p>' + startTime + ' to ' + endTime + '</p>';
+          });
+          console.log(returnStr);
+          return returnStr;
+        }
+        return '<p></p>';
+      } else {
+        setTimeout(() => {
+          waitForUserLoad();
+        }, 1);
+      }
+    };
+    return waitForUserLoad();
+  };
+
+  $scope.showTimePicker = () => {
+    $scope.formattedSelectedDate = moment($scope.selectedDate).format('MMMM Do, YYYY');
+    $scope.viewTimePicker = true;
+    $scope.startTime = undefined;
+    $scope.endTime = undefined;
+  };
+
+  $scope.setCallAvail = () => {
+    const { callAvail } = user;
+
+    if(callAvail[$scope.formattedSelectedDate]) {
+      callAvail[$scope.formattedSelectedDate].push([$scope.startTime, $scope.endTime]);
+    } else {
+      callAvail[$scope.formattedSelectedDate] = [];
+      callAvail[$scope.formattedSelectedDate].push([$scope.startTime, $scope.endTime]);
     }
-    return false;
+
+    user.callAvail = callAvail;
+
+    $http.patch('/api/users/'+user._id, user)
+      .success(() => {
+        MaterialCalendarData.setDayContent($scope.selectedDate, $scope.setDayContent($scope.selectedDate));
+        $mdToast.show(
+          $mdToast.simple()
+            .textContent('Successfully set availability!')
+            .hideDelay(3000)
+        );
+      });
   };
 
-  $scope.showDatePicker = () => {
-    $scope.selectedDate = moment($scope.selectedDate).format('MMMM Do, YYYY');
-    $scope.showTimePicker = true;
-  };
 
   $http.get('/api/classes')
     .success(function(classes) {
