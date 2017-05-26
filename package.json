@@ -3,31 +3,32 @@
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
-    "body-parser": "~1.14.0",
+    "body-parser": "~1.17.2",
     "composable-middleware": "^0.3.0",
     "compression": "~1.6.1",
     "connect-mongo": "^0.8.1",
     "cookie-parser": "~1.0.1",
     "errorhandler": "~1.0.0",
-    "express": "~4.13.0",
-    "express-jwt": "^3.0.0",
+    "express": "~4.15.3",
+    "express-jwt": "^5.3.0",
     "express-session": "~1.0.2",
-    "helmet": "^1.1.0",
+    "helmet": "^3.6.1",
     "jade": "~1.11.0",
-    "jsonwebtoken": "^5.0.0",
+    "jsonwebtoken": "^7.4.1",
     "lodash": "~2.4.1",
-    "mailgun-js": "^0.7.1",
+    "mailgun-js": "^0.10.1",
     "method-override": "~1.0.0",
-    "mongoose": "~4.3.7",
+    "mongoose": "~4.10.2",
     "mongoose-token": "^1.0.3",
     "morgan": "~1.0.0",
     "node-schedule": "^1.0.0",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
     "serve-favicon": "~2.0.1",
-    "socket.io": "^1.4.5",
-    "socket.io-client": "^1.4.5",
-    "socketio-jwt": "^4.3.4"
+    "socket.io": "^2.0.0",
+    "socket.io-client": "^2.0.0",
+    "socketio-jwt": "^4.3.4",
+    "snyk": "^1.30.1"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",
@@ -96,7 +97,10 @@
   "scripts": {
     "start": "node server/app.js",
     "test": "grunt test",
-    "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
+    "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
-  "private": true
+  "private": true,
+  "snyk": true
 }
