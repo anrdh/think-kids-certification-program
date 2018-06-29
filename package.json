@@ -9,7 +9,7 @@
     "connect-mongo": "^0.8.1",
     "cookie-parser": "~1.0.1",
     "errorhandler": "~1.0.0",
-    "express": "~4.13.0",
+    "express": "~4.16.0",
     "express-jwt": "^3.0.0",
     "express-session": "~1.0.2",
     "helmet": "^1.1.0",
